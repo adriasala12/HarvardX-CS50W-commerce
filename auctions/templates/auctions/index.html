@@ -5,16 +5,34 @@
 
     {% for listing in listings %}
 
-        <div class="card mx-auto m-3" style="width: 95%;">
+        <!-- <div class="card mx-auto m-3" style="width: 95%;">
             <div class="row">
                 <img class="card-img col" alt="..." src="https://image.shutterstock.com/image-photo/comfortable-armchair-on-white-background-260nw-1039822120.jpg">
                 <div style="display:table; width:max-content;" class="card-body col-9">
                     <h5 class="card-title">{{ listing.name }}</h5>
                     <p class="card-text">{{ listing.description }}</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <a href="#" class="btn btn-primary">More</a>
                 </div>
             </div>
+        </div> -->
+
+        <div class="card mb-3 mx-auto" style="max-width: 540px; background-color:blue">
+            <a href="#">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="https://image.shutterstock.com/image-photo/comfortable-armchair-on-white-background-260nw-1039822120.jpg" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.name }}</h5>
+                            <p class="card-text">{{ listing.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
+
+
 
     {% endfor %}
 
