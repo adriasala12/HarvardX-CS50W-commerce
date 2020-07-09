@@ -8,13 +8,13 @@ class User(AbstractUser):
 class Listing(models.Model):
 
     name = models.CharField(max_length=64)
-    base_price = models.DecimalField(decimal_places=2)
+    base_price = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
 
 class Bid(models.Model):
 
-    price = models.DecimalField(decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bids")
 
 class Comment(models.Model):
