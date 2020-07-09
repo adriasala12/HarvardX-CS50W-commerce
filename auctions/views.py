@@ -5,9 +5,15 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User, Listing, Bid, Comment
+from django.db.models import Max
 
 
 def index(request):
+
+    for i in Listing.objects.all():
+        i.base_price = i.bids.all().aggregate(Max('price')).get('price__max')
+        # We track the winner user but haven' used it yet
+        winner_user = i.bids.filter(price=i.base_price).first().user
 
     context = {
         "listings": Listing.objects.all(),
