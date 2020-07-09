@@ -11,6 +11,7 @@ class Listing(models.Model):
     base_price = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
+    image_url = models.CharField(max_length=200)
 
 class Bid(models.Model):
 
