@@ -11,6 +11,7 @@ class Listing(models.Model):
     base_price = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 class Bid(models.Model):
 
@@ -22,3 +23,7 @@ class Comment(models.Model):
     text = models.TextField()
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Category(models.Model):
+
+    name = models.CharField(max_length=64)
