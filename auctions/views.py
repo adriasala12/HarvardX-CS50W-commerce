@@ -10,7 +10,7 @@ from .models import User, Listing, Bid, Comment
 def index(request):
 
     context = {
-        "listings": Listing.objects.all()
+        "listings": Listing.objects.all(),
     }
 
     return render(request, "auctions/index.html", context)
