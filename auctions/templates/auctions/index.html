@@ -3,5 +3,19 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    TODO
+    {% for listing in listings %}
+
+        <div class="card mx-auto" style="width: 95%;">
+            <div class="row">
+                <img class="card-img-top col-3" alt="..." src="https://image.shutterstock.com/image-photo/comfortable-armchair-on-white-background-260nw-1039822120.jpg">
+                <div style="display:table; width:max-content; background-color: blue;" class="card-body col-9">
+                    <h5 class="card-title">{{ listing.name }}</h5>
+                    <p class="card-text">{{ listing.description }}</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+
 {% endblock %}
