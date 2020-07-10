@@ -2,8 +2,31 @@
 
 {% block body %}
 
+    <h2 class="row m-2 align-middle">{{ listing.name }}</h2>
 
-    <p>{{ listing }}</p>
+    <button class="row m-2 btn btn-outline-secondary" style="height:50px;" type="button" name="save">
+        <img class="align-middle" style="height:95%" src="https://cdn.onlinewebfonts.com/svg/img_312110.png">
+    </button>
+
+    <img class="row mx-auto" style="height:250px" src="{{ listing.image_url }}">
+
+    <p class="row m-2">{{ listing.description }}</p>
+
+    <h3 class="row m-2">${{ listing.base_price }}</h3>
+
+    <br>
+
+    <p class="ml-2"><small>
+        (Bids count: {{ listing.bids.count }}) -
+
+        {% if user == winner %}
+            You are the current winner.
+        {% else %}
+            The user {{ winner }} is the current winner.
+        {% endif %}
+
+    </small></p>
+
 
 
 
