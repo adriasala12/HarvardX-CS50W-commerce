@@ -15,14 +15,13 @@ def index(request):
 
         if bids.count != 0:
             i.base_price = i.bids.all().aggregate(Max('price')).get('price__max')
-            print(i.base_price)
             i.save()
+
             # We track the winner user but haven' used it yet
             winner_user = i.bids.filter(price=i.base_price).first()
-            print(winner_user.user)
 
     context = {
-        "listings": Listing.objects.all(),
+        "listings": Listing.objects.filter(is_active=True),
     }
 
     return render(request, "auctions/index.html", context)
