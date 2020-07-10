@@ -23,6 +23,7 @@ def index(request):
 
     return render(request, "auctions/index.html", context)
 
+
 def listing(request, listing_id):
     try:
         listing = Listing.objects.get(pk=listing_id)
@@ -32,12 +33,18 @@ def listing(request, listing_id):
     listing.base_price = listing.bids.all().aggregate(Max('price')).get('price__max')
     listing.save()
 
+    ###### CONTINUE HERE ######
+    ###########################
+    print(listing.user.watchlist.all())
+
+
     context = {
         "listing": listing,
         "winner": listing.bids.filter(price=listing.base_price).first().user
     }
 
     return render(request, "auctions/listing.html", context)
+
 
 def bid(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
@@ -47,6 +54,7 @@ def bid(request, listing_id):
     b.save()
 
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
 
 def login_view(request):
     if request.method == "POST":
