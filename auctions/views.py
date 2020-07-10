@@ -33,7 +33,8 @@ def listing(request, listing_id):
         raise Http404("Listing does not exist")
 
     context = {
-        "listing": listing
+        "listing": listing,
+        "winner": listing.bids.filter(price=listing.base_price).first().user
     }
 
     return render(request, "auctions/listing.html", context)
