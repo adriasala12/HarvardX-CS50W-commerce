@@ -11,9 +11,15 @@ from django.db.models import Max
 def index(request):
 
     for i in Listing.objects.all():
-        i.base_price = i.bids.all().aggregate(Max('price')).get('price__max')
-        # We track the winner user but haven' used it yet
-        winner_user = i.bids.filter(price=i.base_price).first().user
+        bids = list(i.bids.all())
+
+        if bids.count != 0:
+            i.base_price = i.bids.all().aggregate(Max('price')).get('price__max')
+            print(i.base_price)
+            i.save()
+            # We track the winner user but haven' used it yet
+            winner_user = i.bids.filter(price=i.base_price).first()
+            print(winner_user.user)
 
     context = {
         "listings": Listing.objects.all(),
