@@ -17,9 +17,6 @@ def index(request):
             i.base_price = i.bids.all().aggregate(Max('price')).get('price__max')
             i.save()
 
-            # We track the winner user but haven' used it yet
-            winner_user = i.bids.filter(price=i.base_price).first()
-
     context = {
         "listings": Listing.objects.filter(is_active=True),
     }
@@ -38,6 +35,15 @@ def listing(request, listing_id):
     }
 
     return render(request, "auctions/listing.html", context)
+
+def bid(request, listing_id):
+    listing = Listing.objects.get(pk=listing_id)
+    bid_price = int(request.POST.get('bid_price'))
+
+    b = Bid(price=bid_price, listing=listing, user=request.user)
+    b.save()
+
+    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 def login_view(request):
     if request.method == "POST":
