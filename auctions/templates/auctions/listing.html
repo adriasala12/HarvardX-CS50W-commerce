@@ -12,7 +12,7 @@
 
     <p class="row m-2">{{ listing.description }}</p>
 
-    <h3 class="row m-2">${{ listing.base_price }}</h3>
+    <h3 id="price" class="row m-2">${{ listing.base_price }}</h3>
 
     <br>
 
@@ -27,6 +27,11 @@
 
     </small></p>
 
+    <form action="{% url 'bid' listing.id %}" method="post">
+        {% csrf_token %}
+        <input type="number" name="bid" placeholder="Your Bid" min="{{ listing.base_price }}" step=".01">
+        <input type="submit" value="Place Bid">
+    </form>
 
 
 
