@@ -29,6 +29,9 @@ def listing(request, listing_id):
     except Listing.DoesNotExist:
         raise Http404("Listing does not exist")
 
+    listing.base_price = listing.bids.all().aggregate(Max('price')).get('price__max')
+    listing.save()
+
     context = {
         "listing": listing,
         "winner": listing.bids.filter(price=listing.base_price).first().user
