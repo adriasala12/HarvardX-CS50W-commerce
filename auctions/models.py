@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    watchlist = models.ManyToManyField('Listing', related_name="watchlist")
 
 class Listing(models.Model):
 
@@ -12,6 +12,7 @@ class Listing(models.Model):
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
     image_url = models.CharField(max_length=600, default="https://freesvg.org/img/Placeholder.png")
+    is_active = models.BooleanField(default=True)
 
 class Bid(models.Model):
 
