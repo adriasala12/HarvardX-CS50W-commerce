@@ -39,11 +39,19 @@
 
     </small></p>
 
-    <form action="{% url 'bid' listing.id %}" method="post">
+    <form class="m-2" action="{% url 'bid' listing.id %}" method="post">
         {% csrf_token %}
         <input type="number" name="bid_price" placeholder="Your Bid" min="{{ listing.base_price|add:'1' }}" step=".01">
         <input type="submit" value="Place Bid">
     </form>
+
+    <br>
+
+    <h3 class="m-2">Details</h3>
+
+    <ul>
+        <li>Created by: <strong>{{ listing.user }}</strong></li>
+    </ul>
 
 
 

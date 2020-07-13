@@ -11,13 +11,6 @@ from django.forms import modelform_factory
 
 def index(request):
 
-    # for i in Listing.objects.all():
-    #     bids = list(i.bids.all())
-    #
-    #     if bids.count != 0:
-    #         i.base_price = float(i.bids.all().aggregate(Max('price')).get('price__max'))
-    #         i.save()
-
     context = {
         "listings": Listing.objects.filter(is_active=True),
     }
