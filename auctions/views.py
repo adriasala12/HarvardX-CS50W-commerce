@@ -46,6 +46,12 @@ def listing(request, listing_id):
 
     return render(request, "auctions/listing.html", context)
 
+
+def watchlist(request):
+
+    return render(request, "auctions/watchlist.html")
+
+
 @login_required(login_url='login')
 def bid(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
