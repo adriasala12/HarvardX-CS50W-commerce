@@ -11,12 +11,12 @@ from django.forms import modelform_factory
 
 def index(request):
 
-    for i in Listing.objects.all():
-        bids = list(i.bids.all())
-
-        if bids.count != 0:
-            i.base_price = i.bids.all().aggregate(Max('price')).get('price__max')
-            i.save()
+    # for i in Listing.objects.all():
+    #     bids = list(i.bids.all())
+    #
+    #     if bids.count != 0:
+    #         i.base_price = float(i.bids.all().aggregate(Max('price')).get('price__max'))
+    #         i.save()
 
     context = {
         "listings": Listing.objects.filter(is_active=True),
@@ -31,20 +31,19 @@ def listing(request, listing_id):
     except Listing.DoesNotExist:
         raise Http404("Listing does not exist")
 
-    listing.base_price = listing.bids.all().aggregate(Max('price')).get('price__max')
-    listing.save()
-
     if listing in listing.user.watchlist.all():
         is_in_watchlist = True
     else:
         is_in_watchlist = False
 
-    print(listing.user.watchlist.all())
-    print(is_in_watchlist)
+    try:
+        winner = listing.bids.filter(price=listing.base_price).first().user
+    except:
+        winner = None
 
     context = {
         "listing": listing,
-        "winner": listing.bids.filter(price=listing.base_price).first().user,
+        "winner": winner,
         "is_in_watchlist": is_in_watchlist,
     }
 
@@ -78,6 +77,26 @@ def watchlist(request):
 @login_required(login_url='login')
 def add_listing(request):
 
+    if request.method == 'POST':
+
+        r = request.POST
+
+        if r['is_active'] == 'on':
+            state = True
+        else:
+            state = False
+
+        Listing.objects.create(
+            name = r['name'],
+            base_price = float(r['base_price']),
+            description = r['description'],
+            user = User.objects.get(pk=r['user']),
+            image_url = r['image_url'],
+            is_active = state
+        )
+
+        return HttpResponseRedirect(reverse("index"))
+
     listing_form = modelform_factory(Listing, fields='__all__')
 
     return render(request, "auctions/create.html", {'form': listing_form})
@@ -89,7 +108,9 @@ def bid(request, listing_id):
     bid_price = float(request.POST.get('bid_price'))
 
     b = Bid(price=bid_price, listing=listing, user=request.user)
+    listing.base_price = bid_price
     b.save()
+    listing.save()
 
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
