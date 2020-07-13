@@ -36,6 +36,7 @@ def listing(request, listing_id):
 
     context = {
         "listing": listing,
+        "category": listing.category,
         "winner": winner,
         "is_in_watchlist": is_in_watchlist,
     }
@@ -85,7 +86,8 @@ def add_listing(request):
             description = r['description'],
             user = User.objects.get(pk=r['user']),
             image_url = r['image_url'],
-            is_active = state
+            is_active = state,
+            category = r['category']
         )
 
         return HttpResponseRedirect(reverse("index"))
