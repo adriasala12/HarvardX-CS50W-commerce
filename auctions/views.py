@@ -4,9 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
 from .models import User, Listing, Bid, Comment
 from django.db.models import Max
+from django.forms import modelform_factory
 
 
 def index(request):
@@ -51,6 +51,7 @@ def listing(request, listing_id):
     return render(request, "auctions/listing.html", context)
 
 
+@login_required(login_url='login')
 def add_watchlist(request, listing_id):
 
     watchlist = request.user.watchlist
@@ -64,6 +65,7 @@ def add_watchlist(request, listing_id):
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
+@login_required(login_url='login')
 def watchlist(request):
 
     context = {
@@ -71,6 +73,12 @@ def watchlist(request):
     }
 
     return render(request, "auctions/watchlist.html", context)
+
+
+@login_required(login_url='login')
+def add_listing(request):
+
+    return render(request, "auctions/create.html")
 
 
 @login_required(login_url='login')
