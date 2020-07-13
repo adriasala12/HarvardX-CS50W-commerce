@@ -48,7 +48,7 @@ def listing(request, listing_id):
 
 def bid(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
-    bid_price = int(request.POST.get('bid_price'))
+    bid_price = float(request.POST.get('bid_price'))
 
     b = Bid(price=bid_price, listing=listing, user=request.user)
     b.save()

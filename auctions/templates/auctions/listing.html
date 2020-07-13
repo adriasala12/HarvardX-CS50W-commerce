@@ -12,7 +12,7 @@
 
     <p class="row m-2">{{ listing.description }}</p>
 
-    <h3 id="price" class="row m-2">${{ listing.base_price }}</h3>
+    <h3 id="price" class="row m-2">${{ listing.base_price|stringformat:".2f" }}</h3>
 
     <br>
 
