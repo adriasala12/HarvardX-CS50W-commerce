@@ -34,14 +34,20 @@ def listing(request, listing_id):
     listing.base_price = listing.bids.all().aggregate(Max('price')).get('price__max')
     listing.save()
 
+    if listing in listing.user.watchlist.all():
+        is_in_watchlist = True
+    else:
+        is_in_watchlist = False
+
     ###### CONTINUE HERE ######
     ###########################
     print(listing.user.watchlist.all())
-
+    print(is_in_watchlist)
 
     context = {
         "listing": listing,
-        "winner": listing.bids.filter(price=listing.base_price).first().user
+        "winner": listing.bids.filter(price=listing.base_price).first().user,
+        "is_in_watchlist": is_in_watchlist
     }
 
     return render(request, "auctions/listing.html", context)
