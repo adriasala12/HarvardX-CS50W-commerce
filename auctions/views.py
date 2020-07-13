@@ -49,7 +49,11 @@ def listing(request, listing_id):
 
 def watchlist(request):
 
-    return render(request, "auctions/watchlist.html")
+    context = {
+        "listings": request.user.watchlist.all()
+    }
+
+    return render(request, "auctions/watchlist.html", context)
 
 
 @login_required(login_url='login')
