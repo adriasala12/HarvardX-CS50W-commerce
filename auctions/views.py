@@ -78,7 +78,9 @@ def watchlist(request):
 @login_required(login_url='login')
 def add_listing(request):
 
-    return render(request, "auctions/create.html")
+    listing_form = modelform_factory(Listing, fields='__all__')
+
+    return render(request, "auctions/create.html", {'form': listing_form})
 
 
 @login_required(login_url='login')

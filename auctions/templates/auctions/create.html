@@ -2,12 +2,34 @@
 
 {% block body %}
 
+    <style media="screen">
+        #id_name {
+            width: 60%;
+        }
+        #id_base_price {
+            width: 60%;
+        }
+        #id_description {
+            width: 60%;
+        }
+        #id_user {
+            width: 60%;
+        }
+        #id_image_url {
+            width: 60%;
+        }
+    </style>
+
     <h2>Create New Listings</h2>
 
-    <form action="/your-name/" method="post">
+    <form class="form" action="/your-name/" method="post">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Create">
+        <table class="table">
+            {{ form.as_table }}
+        </table>
+        <div>
+            <input class="btn btn-success mx-auto" style="width:35%;display:block" type="submit" value="Create">
+        </div>
     </form>
 
 {% endblock %}
