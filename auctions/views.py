@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import User, Listing, Bid, Comment
 from django.db.models import Max
@@ -45,7 +46,7 @@ def listing(request, listing_id):
 
     return render(request, "auctions/listing.html", context)
 
-
+@login_required(login_url='login')
 def bid(request, listing_id):
     listing = Listing.objects.get(pk=listing_id)
     bid_price = float(request.POST.get('bid_price'))
