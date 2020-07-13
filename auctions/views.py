@@ -39,18 +39,29 @@ def listing(request, listing_id):
     else:
         is_in_watchlist = False
 
-    ###### CONTINUE HERE ######
-    ###########################
     print(listing.user.watchlist.all())
     print(is_in_watchlist)
 
     context = {
         "listing": listing,
         "winner": listing.bids.filter(price=listing.base_price).first().user,
-        "is_in_watchlist": is_in_watchlist
+        "is_in_watchlist": is_in_watchlist,
     }
 
     return render(request, "auctions/listing.html", context)
+
+
+def add_watchlist(request, listing_id):
+
+    watchlist = request.user.watchlist
+    listing = Listing.objects.get(pk=listing_id)
+
+    if listing in listing.user.watchlist.all():
+        watchlist.remove(listing)
+    else:
+        watchlist.add(listing)
+
+    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
 def watchlist(request):

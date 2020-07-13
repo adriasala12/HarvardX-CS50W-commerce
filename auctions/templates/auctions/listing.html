@@ -4,19 +4,20 @@
 
     <script type="text/javascript">
         function change() {
-            var image = document.getElementById('image');
-            if (image.src == "https://cdn.onlinewebfonts.com/svg/img_312110.png") {
-                image.src = "https://www.shareicon.net/data/512x512/2015/12/14/687209_bookmark_512x512.png"
-            } else {
-                image.src = "https://cdn.onlinewebfonts.com/svg/img_312110.png"
-            }
+            location.href = "{% url 'add_watchlist' listing.id %}"
         }
     </script>
 
     <h2 class="row m-2 align-middle">{{ listing.name }}</h2>
 
-    <button class="row m-2 btn btn-outline-secondary" style="height:50px;" type="button" name="save" onclick="change()">
-        <img id="image" class="align-middle" style="height:95%" src="https://cdn.onlinewebfonts.com/svg/img_312110.png">
+    <button class="row m-2 btn btn-outline-secondary" style="height:50px;" type="button" onclick="change()">
+        <img id="image" class="align-middle" style="height:95%" src=
+            "
+            {% if is_in_watchlist %}
+                static/auctions/black.png
+            {% else %}
+                static/auctions/white.png
+            {% endif %}">
     </button>
 
     <img class="row mx-auto" style="height:250px" src="{{ listing.image_url }}">
