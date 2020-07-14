@@ -54,7 +54,15 @@
         <li>Category: {{ listing.get_category_display }}</li>
     </ul>
 
+    <br>
 
+    <h3 class="m-2">Comments</h3>
+
+    <ul>
+        {% for comment in listing.comments.all %}
+            <li>{{ comment.author }}: {{ comment.text }}</li>
+        {% endfor %}
+    </ul>
 
 
 
