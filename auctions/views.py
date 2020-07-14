@@ -84,7 +84,7 @@ def add_listing(request):
             name = r['name'],
             base_price = float(r['base_price']),
             description = r['description'],
-            user = User.objects.get(pk=r['user']),
+            user = request.user,
             image_url = r['image_url'],
             is_active = state,
             category = r['category']
@@ -92,7 +92,7 @@ def add_listing(request):
 
         return HttpResponseRedirect(reverse("index"))
 
-    listing_form = modelform_factory(Listing, fields='__all__')
+    listing_form = modelform_factory(Listing, exclude=['user'])
 
     return render(request, "auctions/create.html", {'form': listing_form})
 
