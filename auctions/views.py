@@ -50,13 +50,28 @@ def categories(request):
     listings = list(Listing.objects.all())
 
     for category in Listing.CATEGORIES:
-        dic[category[0]] = list(filter(lambda l: l.category==category[0], listings))
+        dic[category] = list(filter(lambda l: l.category==category[0], listings))
 
     context = {
         "categories": dic,
     }
 
     return render(request, "auctions/categories.html", context)
+
+
+def category(request, category_id):
+
+    listings = []
+    for listing in Listing.objects.all():
+        if int(listing.category) == int(category_id):
+            listings.append(listing)
+
+    context = {
+        "listings": listings,
+        "category_name": Listing.CATEGORIES[category_id-1][1],
+    }
+
+    return render(request, "auctions/category.html", context)
 
 
 @login_required(login_url='login')

@@ -8,12 +8,12 @@
         {% if value|length != 0 %}
 
             <div class="card mb-3 mx-auto" style="max-width: 540px;">
-                <a class="text-decoration-none" href="#">
+                <a class="text-decoration-none" href="{% url 'category' key.0 %}">
                     <div class="row no-gutters">
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h3 class="card-title font-weight-bold">{{ key }}</h3>
-                                <h5 class="card-text">{{ value|length }}</h5>
+                                <h3 class="card-title font-weight-bold">{{ key.1 }}</h3>
+                                <h5 class="card-text"><small class="text-muted">{{ value|length }} Item(s) in this category.</small></h5>
                             </div>
                         </div>
                     </div>
