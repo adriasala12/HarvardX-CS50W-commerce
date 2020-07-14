@@ -7,13 +7,13 @@
             location.href = "{% url 'add_watchlist' listing.id %}"
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            if ("{{user}}" == "{{winner}}" && !{{listing.is_active|yesno:'true,false'}}) {
-                window.alert("You won the auction.");
-            } else if ("{{user}}" != "{{winner}}" && !{{listing.is_active|yesno:'true,false'}}) {
-                window.alert("You didn't win the auction this time.");
-            }
-        })
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     if ("{{user}}" == "{{winner}}" && !{{listing.is_active|yesno:'true,false'}}) {
+        //         window.alert("You won the auction.");
+        //     } else if ("{{user}}" != "{{winner}}" && !{{listing.is_active|yesno:'true,false'}}) {
+        //         window.alert("You didn't win the auction this time.");
+        //     }
+        // })
 
     </script>
 
