@@ -34,14 +34,30 @@ def listing(request, listing_id):
     except:
         winner = None
 
+    comment_form = modelform_factory(Comment, fields=['text'])
+
     context = {
         "listing": listing,
         "category": listing.category,
         "winner": winner,
         "is_in_watchlist": is_in_watchlist,
+        "form": comment_form
     }
 
     return render(request, "auctions/listing.html", context)
+
+@login_required(login_url='login')
+def add_comment(request, listing_id):
+
+    if request.method == 'POST':
+
+        Comment.objects.create(
+            text = request.POST['text'],
+            listing = Listing.objects.get(pk=listing_id),
+            author = request.user
+        )
+
+    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 
 def categories(request):

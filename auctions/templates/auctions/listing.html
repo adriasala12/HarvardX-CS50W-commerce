@@ -64,6 +64,30 @@
         {% endfor %}
     </ul>
 
+    <style media="screen">
+        #id_text {
+            height: 60px;
+        }
+    </style>
 
+    <form class="form" action="{% url 'add_comment' listing.id %}" method="post">
+        {% csrf_token %}
+        <table class="ml-3">
+            <!-- <tr>
+                <td>{{ form.text.label_tag }}</td>
+            </tr> -->
+            <tr>
+                <td>{{ form.text }}</td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="btn btn-success" style="width:25%;display:block" type="submit" value="Send">
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+    <br><br><br>
 
 {% endblock %}
