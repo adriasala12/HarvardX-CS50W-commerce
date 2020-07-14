@@ -7,14 +7,17 @@
             location.href = "{% url 'add_watchlist' listing.id %}"
         }
 
-        // if (user == winner && !listing.is_active) {
-        //     window.alert("You won the auction.");
-        // } else if (user != winner && !listing.is_active) {
-        //     window.alert("You didn't won this time.")
-        // }
+        document.addEventListener('DOMContentLoaded', () => {
+            if ("{{user}}" == "{{winner}}" && !{{listing.is_active|yesno:'true,false'}}) {
+                window.alert("You won the auction.");
+            } else if ("{{user}}" != "{{winner}}" && !{{listing.is_active|yesno:'true,false'}}) {
+                window.alert("You didn't win the auction this time.");
+            }
+        })
+
     </script>
 
-    <h2 class="row m-2 align-middle">{{ listing.name }}</h2>
+    <h2 onload="alert({{user}}, {{winner}}, {{listing.is_active}})" class="row m-2 align-middle">{{ listing.name }}</h2>
 
     <button class="row m-2 btn btn-outline-secondary" style="height:50px;" type="button" onclick="change()">
         <img id="image" class="align-middle" style="height:95%" src=
