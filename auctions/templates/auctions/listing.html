@@ -6,6 +6,12 @@
         function change() {
             location.href = "{% url 'add_watchlist' listing.id %}"
         }
+
+        // if (user == winner && !listing.is_active) {
+        //     window.alert("You won the auction.");
+        // } else if (user != winner && !listing.is_active) {
+        //     window.alert("You didn't won this time.")
+        // }
     </script>
 
     <h2 class="row m-2 align-middle">{{ listing.name }}</h2>
@@ -28,24 +34,34 @@
 
     <br>
 
-    <p class="ml-2"><small>
-        (Bids count: {{ listing.bids.count }}) -
+    {% if user != listing.user %}
 
-        {% if user == winner %}
-            You are the current winner.
-        {% else %}
-            The user {{ winner }} is the current winner.
-        {% endif %}
+        <p class="ml-2"><small>
+            (Bids count: {{ listing.bids.count }}) -
 
-    </small></p>
+            {% if user == winner %}
+                You are the current winner.
+            {% else %}
+                The user {{ winner }} is the current winner.
+            {% endif %}
 
-    <form class="m-2" action="{% url 'bid' listing.id %}" method="post">
-        {% csrf_token %}
-        <input type="number" name="bid_price" placeholder="Your Bid" min="{{ listing.base_price|add:'1' }}" step=".01">
-        <input type="submit" value="Place Bid">
-    </form>
+        </small></p>
 
-    <br>
+        <form class="m-2" action="{% url 'bid' listing.id %}" method="post">
+            {% csrf_token %}
+            <input type="number" name="bid_price" placeholder="Your Bid" min="{{ listing.base_price|add:'1' }}" step=".01">
+            <input type="submit" value="Place Bid">
+        </form>
+
+        <br>
+
+    {% else %}
+
+        <a href="{% url 'close' listing.id %}">
+            <button type="button" class="btn btn-danger m-3">Close auction</button>
+        </a>
+
+    {% endif %}
 
     <h3 class="m-2">Details</h3>
 

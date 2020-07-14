@@ -24,7 +24,7 @@ def listing(request, listing_id):
     except Listing.DoesNotExist:
         raise Http404("Listing does not exist")
 
-    if listing in listing.user.watchlist.all():
+    if listing in request.user.watchlist.all():
         is_in_watchlist = True
     else:
         is_in_watchlist = False
@@ -45,6 +45,20 @@ def listing(request, listing_id):
     }
 
     return render(request, "auctions/listing.html", context)
+
+
+def close(request, listing_id):
+
+    try:
+        listing = Listing.objects.get(pk=listing_id)
+    except Listing.DoesNotExist:
+        raise Http404("Listing does not exist")
+
+    listing.is_active = False
+    listing.save()
+
+    return HttpResponseRedirect(reverse("index"))
+
 
 @login_required(login_url='login')
 def add_comment(request, listing_id):
@@ -96,7 +110,7 @@ def add_watchlist(request, listing_id):
     watchlist = request.user.watchlist
     listing = Listing.objects.get(pk=listing_id)
 
-    if listing in listing.user.watchlist.all():
+    if listing in request.user.watchlist.all():
         watchlist.remove(listing)
     else:
         watchlist.add(listing)
