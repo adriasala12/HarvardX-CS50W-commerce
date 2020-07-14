@@ -37,33 +37,40 @@
 
     <br>
 
-    {% if user != listing.user %}
+    {% if listing.is_active %}
+        {% if user != listing.user %}
 
-        <p class="ml-2"><small>
-            (Bids count: {{ listing.bids.count }}) -
+            <p class="ml-2"><small>
+                (Bids count: {{ listing.bids.count }}) -
 
-            {% if user == winner %}
-                You are the current winner.
-            {% else %}
-                The user {{ winner }} is the current winner.
-            {% endif %}
+                {% if user == winner %}
+                    You are the current winner.
+                {% else %}
+                    The user {{ winner }} is the current winner.
+                {% endif %}
 
-        </small></p>
+            </small></p>
 
-        <form class="m-2" action="{% url 'bid' listing.id %}" method="post">
-            {% csrf_token %}
-            <input type="number" name="bid_price" placeholder="Your Bid" min="{{ listing.base_price|add:'1' }}" step=".01">
-            <input type="submit" value="Place Bid">
-        </form>
+            <form class="m-2" action="{% url 'bid' listing.id %}" method="post">
+                {% csrf_token %}
+                <input type="number" name="bid_price" placeholder="Your Bid" min="{{ listing.base_price|add:'1' }}" step=".01">
+                <input type="submit" value="Place Bid">
+            </form>
 
-        <br>
+            <br>
 
+        {% else %}
+
+            <a href="{% url 'close' listing.id %}">
+                <button type="button" class="btn btn-danger m-3">Close auction</button>
+            </a>
+
+        {% endif %}
+
+    {% elif user == winner %}
+        <h1>The auction is closed. You are the winner!</h1>
     {% else %}
-
-        <a href="{% url 'close' listing.id %}">
-            <button type="button" class="btn btn-danger m-3">Close auction</button>
-        </a>
-
+        <h1>The auction is closed. Better luck next time.</h1>
     {% endif %}
 
     <h3 class="m-2">Details</h3>
