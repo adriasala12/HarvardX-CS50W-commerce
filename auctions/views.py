@@ -44,6 +44,21 @@ def listing(request, listing_id):
     return render(request, "auctions/listing.html", context)
 
 
+def categories(request):
+
+    dic = dict()
+    listings = list(Listing.objects.all())
+
+    for category in Listing.CATEGORIES:
+        dic[category[0]] = list(filter(lambda l: l.category==category[0], listings))
+
+    context = {
+        "categories": dic,
+    }
+
+    return render(request, "auctions/categories.html", context)
+
+
 @login_required(login_url='login')
 def add_watchlist(request, listing_id):
 
