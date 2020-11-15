@@ -24,8 +24,11 @@ def listing(request, listing_id):
     except Listing.DoesNotExist:
         raise Http404("Listing does not exist")
 
-    if listing in request.user.watchlist.all():
-        is_in_watchlist = True
+    if request.user.is_authenticated:
+        if listing in request.user.watchlist.all():
+            is_in_watchlist = True
+        else:
+            is_in_watchlist = False
     else:
         is_in_watchlist = False
 
@@ -77,7 +80,7 @@ def add_comment(request, listing_id):
 def categories(request):
 
     dic = dict()
-    listings = list(Listing.objects.all())
+    listings = list(Listing.objects.filter(is_active=True))
 
     for category in Listing.CATEGORIES:
         dic[category] = list(filter(lambda l: l.category==category[0], listings))
